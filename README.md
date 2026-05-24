@@ -19,6 +19,15 @@ flutter pub get
 flutter run
 ```
 
+GitHub Actions ile APK üretme
+1. Repo sayfasında `Actions` sekmesine girin.
+2. `Build Android APK` workflow'unu seçin.
+3. `Run workflow` butonuna tıklayın.
+4. İşlem bitince ilgili workflow koşusuna girip `Artifacts` bölümünden `app-release-apk` dosyasını indirin.
+
+Not:
+- Bu repo ilk başta Flutter platform klasörleri olmadan oluşturulduysa workflow CI ortamında otomatik olarak `android` klasörünü üretir.
+
 Notlar
 - Bildirimler için Android tarafında ek izinler ve manifest ayarları gerekebilir. `flutter_local_notifications` paketinin dökümantasyonuna bakın.
 - Tahajjud vakitleri otomatik hesaplama özelliği eklenebilir; şu an kullanıcı manuel olarak günlük saat seçiyor.
