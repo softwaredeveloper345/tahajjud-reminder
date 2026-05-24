@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:convert';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -15,37 +15,15 @@ Future<void> main() async {
   // Timezone package initialization
   tz.initializeTimeZones();
 
-  const AndroidInitializationSettings initializationSettingsAndroid =
+  const AndroidInitializationSettings androidInitializationSettings =
       AndroidInitializationSettings('@mipmap/ic_launcher');
-
-  final InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-    iOS: DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    ),
+  const InitializationSettings initializationSettings = InitializationSettings(
+    android: androidInitializationSettings,
+    iOS: null,
     macOS: null,
   );
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-  // Create Android notification channel (for Android 8+)
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'tahajjud_channel',
-    'Tahajjud Bildirimleri',
-    description: 'Tahajjud namazı hatırlatmaları',
-    importance: Importance.max,
-  );
-
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-
-  // Request iOS permissions (if running on iOS)
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
-      ?.requestPermissions(alert: true, badge: true, sound: true);
 
   runApp(const MyApp());
 }
@@ -150,7 +128,10 @@ class _HomePageState extends State<HomePage> {
 
       final DateTime sunrise = times['sunrise']!.toLocal();
       final DateTime sunset = times['sunset']!.toLocal();
-      final Duration night = sunrise.difference(sunset);
+      final DateTime nextSunrise = sunrise.isAfter(sunset)
+          ? sunrise
+          : sunrise.add(const Duration(days: 1));
+      final Duration night = nextSunrise.difference(sunset);
       final DateTime lastThirdStart = sunset.add(Duration(seconds: (night.inSeconds * 2 / 3).round()));
 
       setState(() {
