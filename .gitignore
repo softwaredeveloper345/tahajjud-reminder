@@ -1,0 +1,24 @@
+# Flutter/Dart
+.dart_tool/
+.packages
+.pub-cache/
+.buildlog
+build/
+/flutter_*.png
+android/.gradle/
+android/app/*.keystore
+.idea/
+.vscode/
+*.iml
+.gradle/
+
+# macOS
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Generated
+pubspec.lock
+generated/
