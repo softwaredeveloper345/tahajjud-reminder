@@ -73,6 +73,12 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Generate web folder if missing
+        run: |
+          if [ ! -d "web" ]; then
+            flutter create . --platforms=web
+          fi
+
       - name: Build web
         run: flutter build web --release
 
