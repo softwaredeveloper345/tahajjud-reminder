@@ -47,7 +47,7 @@ Future<void> main() async {
 
   // Request iOS permissions (if running on iOS)
   await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<DarwinFlutterLocalNotificationsPlugin>()
+      .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
       ?.requestPermissions(alert: true, badge: true, sound: true);
 
   runApp(const MyApp());
@@ -151,8 +151,8 @@ class _HomePageState extends State<HomePage> {
       final times = await _fetchSunriseSunset(pos.latitude, pos.longitude);
       if (times == null) throw Exception('Sun API error');
 
-      final DateTime sunrise = times['sunrise'].toLocal();
-      final DateTime sunset = times['sunset'].toLocal();
+      final DateTime sunrise = times['sunrise']!.toLocal();
+      final DateTime sunset = times['sunset']!.toLocal();
       final Duration night = sunrise.difference(sunset);
       final DateTime lastThirdStart = sunset.add(Duration(seconds: (night.inSeconds * 2 / 3).round()));
 
