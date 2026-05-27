@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Tahajjud Hatırlatıcı",
+    "slug": "tahajjud-reminder",
+    "version": "1.0.0",
+    "android": {
+      "package": "com.github.softwaredeveloper345.tahajjudreminder",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#1e2a5a"
+      }
+    },
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#e8eefc"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-location",
+      "expo-notifications"
+    ]
+  }
+}

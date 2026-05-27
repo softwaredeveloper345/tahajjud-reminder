@@ -11,6 +11,7 @@ android/app/*.keystore
 .vscode/
 *.iml
 .gradle/
+web/
 
 # macOS
 .DS_Store
@@ -22,3 +23,18 @@ logs/
 # Generated
 pubspec.lock
 generated/
+
+# Expo / React Native
+node_modules/
+.expo/
+.expo-shared/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+node_modules
+.eas/
+*.apk
+*.aab
+*.jks
+*.keystore

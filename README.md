@@ -1,66 +1,70 @@
-Tahajjud Hatırlatıcı - Basit Flutter uygulaması
+# Tahajjud Reminder
 
-Açıklama
-- Bu proje, kullanıcıya günlük olarak seçilen saatte Tahajjud (teheccüd) namazı için bildirim gönderen basit bir mobil uygulama örneğidir.
+Bu proje artık Flutter değil, **Expo / React Native** yapısındadır. Amaç, uygulamayı telefonda **Expo Go** ile QR kod üzerinden açmaktır.
 
-Gereksinimler
-- Flutter SDK
+## Nasıl çalıştırılır
 
-Kurulum ve Çalıştırma
-1. Flutter bağımlılıklarını yükleyin:
+1. Bağımlılıkları yükle:
 
 ```bash
-flutter pub get
+npm install
 ```
 
-2. Uygulamayı cihazda çalıştırın (emülatör veya gerçek cihaz):
+2. Expo geliştirme sunucusunu başlat:
 
 ```bash
-flutter run
+npx expo start
 ```
 
-GitHub Actions ile APK üretme
-1. Repo sayfasında `Actions` sekmesine girin.
-2. `Build Android APK` workflow'unu seçin.
-3. `Run workflow` butonuna tıklayın.
-4. İşlem bitince ilgili workflow koşusuna girip `Artifacts` bölümünden `app-release-apk` dosyasını indirin.
+3. Terminalde çıkan QR kodu telefondaki **Expo Go** uygulamasıyla okut.
 
-Not:
-- Bu repo ilk başta Flutter platform klasörleri olmadan oluşturulduysa workflow CI ortamında otomatik olarak `android` klasörünü üretir.
+## Gerekli uygulama
 
-Notlar
-- Bildirimler için Android tarafında ek izinler ve manifest ayarları gerekebilir. `flutter_local_notifications` paketinin dökümantasyonuna bakın.
-- Tahajjud vakitleri otomatik hesaplama özelliği eklenebilir; şu an kullanıcı manuel olarak günlük saat seçiyor.
+- Android veya iPhone üzerinde **Expo Go** kurulu olmalı.
 
-Platform notları
-- Android:
-	- `android/app/src/main/AndroidManifest.xml` içine aşağıdaki izni ekleyin (yeniden başlatma sonrası bildirimleri yeniden planlamak isterseniz gereklidir):
+## Özellikler
 
-```xml
-<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-```
-	- Ayrıca `flutter_local_notifications` paketinin dökümantasyonundaki Android manifest ve kanal ayarlarını kontrol edin.
-- iOS:
-	- Bildirim izinleri uygulama çalışırken istemektedir. Gerekirse `Info.plist` içinde kullanıcıya gösterilecek açıklamaları ekleyin.
+- Hatırlatma saati seçimi
+- Günlük bildirim planlama
+- Konuma göre otomatik tahajjud vakti hesaplama
+- Expo Go üzerinden QR ile açma
 
-Notlar
-- Uygulama günlük olarak seçilen saatte bildirim gönderir. Bildirimlerin tam güvenilirliği ve reboot sonrası devamlılığı için ek boot-reschedule mantığı eklenmelidir.
+## Play Store hazırlığı
 
-Konum ve otomatik vakit hesaplama
-- Android:
-	- `android/app/src/main/AndroidManifest.xml` içine aşağıdaki izinleri ekleyin:
+Bu proje artık Play Store'a yüklenebilecek Android paket kimliği ile ayarlı.
 
-```xml
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+### Üretim derlemesi
+
+1. EAS CLI kurulu değilse kur:
+
+```bash
+npm install -g eas-cli
 ```
 
-- iOS:
-	- `ios/Runner/Info.plist` içine kullanıcıya gösterilecek açıklamaları ekleyin:
+2. Giriş yap ve projeyi EAS'e bağla:
 
-```xml
-<key>NSLocationWhenInUseUsageDescription</key>
-<string>Konumunuza göre tahajjud vaktini hesaplamak için izin gerekiyor.</string>
+```bash
+eas login
+eas build:configure
 ```
 
--- Uygulama, kullanıcının bulunduğu konumu alıp `https://api.sunrise-sunset.org` API'sinden günün doğuş/gün batımı zamanlarını alır ve gecenin son üçte birlik kısmının başını tahajjud vakti olarak kullanır.
+3. Android üretim build al:
+
+```bash
+eas build -p android --profile production
+```
+
+4. Play Console'a yüklemek için AAB dosyasını indir ve gönder.
+
+## Not
+
+- QR kodu, `npx expo start` komutunu çalıştırdığında terminalde otomatik çıkar.
+- Konum izni ve bildirim izni ilk açılışta istenir.
+- Play Store için uygulama ikonu, ekran görüntüleri ve mağaza açıklaması ayrıca gerekir.
+
+## Dosyalar
+
+- [App.tsx](App.tsx)
+- [app.json](app.json)
+- [eas.json](eas.json)
+- [package.json](package.json)
